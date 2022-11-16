@@ -1,5 +1,5 @@
 # import the libraries
-!pip install timm
+pip install timm
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -128,12 +128,12 @@ def get_transforms(*, data):
             ToTensorV2(),
         ])
         class CustomNet(nn.Module):
-    def __init__(self, model_name=CFG.model_name, pretrained=False):
-        super().__init__()
-        self.model = timm.create_model(CFG.model_name, pretrained=pretrained)
+            def __init__(self, model_name=CFG.model_name, pretrained=False):
+                  super().__init__()
+                  self.model = timm.create_model(CFG.model_name, pretrained=pretrained)
         #print(self.model.default_cfg["classifier"])
-        n_features = self.model.fc.in_features #either fc or classifier , check using above line
-        self.model.classifier = nn.Linear(n_features, CFG.target_size)
+                  n_features = self.model.fc.in_features #either fc or classifier , check using above line
+                  self.model.classifier = nn.Linear(n_features, CFG.target_size)
 
     def forward(self, x):
         x = self.model(x)
@@ -156,9 +156,9 @@ def get_scheduler(optimizer):
     scheduler = StepLR(optimizer, step_size=2, gamma=0.1, verbose=True)
     return scheduler
     class AverageMeter(object):
-    """Computes and stores the average and current value"""
-    def __init__(self):
-        self.reset()
+          """Computes and stores the average and current value"""
+          def __init__(self):
+              self.reset()
 
     def reset(self):
         self.val = 0
@@ -301,7 +301,7 @@ def main():
         df = train_loop(train_data, val_data)
         get_result(df)
         if __name__ == '__main__':
-    main()
+            main()
     test_dataset = TestDataset(test, transform=get_transforms(data='valid'))
 test_loader = DataLoader(test_dataset, batch_size=1, shuffle=False, 
                           num_workers=CFG.num_workers, pin_memory=True, drop_last=False)
